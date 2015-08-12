@@ -2,11 +2,14 @@ package group.exp.com.controller;
 
 
 import group.exp.com.model.Book;
+import group.exp.com.model.Cart;
+import group.exp.com.model.Coments;
 import group.exp.com.model.Likes;
 import group.exp.com.model.User;
 import group.exp.com.service.ServiceManager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,6 +106,15 @@ public class Control {
 		return  new ModelAndView("user");
 	}
 	
+	@RequestMapping("/cart")
+	public ModelAndView cart( HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> model = new HashMap<String, Object>();
+		HttpSession session = request.getSession(true);
+		model.put("listCart",  serviceManager.listCartByIDuser((Integer)session.getAttribute("idUser")));
+		
+		return new ModelAndView("cart" , model);
+	}
+	
 	@RequestMapping("/registration")
 	public ModelAndView registration( HttpServletRequest request, HttpServletResponse response) {
 		return new ModelAndView("registration");
@@ -142,6 +154,18 @@ public class Control {
 		return new ModelAndView("login");
 	}
 	
+	@RequestMapping("/addToCart")
+	public  String addToCart( HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession(true);
+		
+		Integer id = (Integer) session.getAttribute("idUser");
+		
+		serviceManager.addCart(Integer.parseInt(request.getParameter("selectDetail")), id, 1);
+		
+		return "redirect:showDetail?selectDetail="+request.getParameter("selectDetail");
+	}
+	
+	
 	@RequestMapping("/addLike")
 	public  String addLike( HttpServletRequest request, HttpServletResponse response, Likes likes) {
 		HttpSession session = request.getSession(true);
@@ -152,6 +176,15 @@ public class Control {
 		System.out.println("likes.getId_user() "+likes.getId_user());
 		
 		serviceManager.addLike(likes);
+		
+		return "redirect:showDetail?selectDetail="+request.getParameter("selectDetail");
+	}
+	
+	@RequestMapping(value ="/addComent", method = RequestMethod.GET )
+	public  String addComent( HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession(true);
+		
+		
 		
 		return "redirect:showDetail?selectDetail="+request.getParameter("selectDetail");
 	}
@@ -201,33 +234,48 @@ public class Control {
 
 	}
 	
-	@RequestMapping("/showDetail")
+	@RequestMapping(value ="/showDetail", method = RequestMethod.GET)
 	public ModelAndView showDetail(@ModelAttribute("book") Book book, 
 			BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-	
+			HttpSession session = request.getSession(true);
 		
-		if (request.getParameter("selectDetail")!=null)
-		{
+		
+			if (request.getParameter("addToCart") !=null){
+				Cart cart = new Cart();
+				
+			}
+			if (request.getParameter("addComent") !=null){
+			
+				Coments coment = new Coments();
+				
+				System.out.println("Select Book :"+request.getParameter("selectDetail"));
+				System.out.println("IdUser : "+session.getAttribute("idUser"));
+				System.out.println("opinion : "+request.getParameter("add_coment_book"));
+				System.out.println("Date : "+new Date());
+				//String str = (String) session.getAttribute("idUser");
+				Integer id = (Integer) session.getAttribute("idUser");
+		
+				coment.setId_book(Integer.parseInt(request.getParameter("selectDetail")));
+				coment.setId_user(id);
+				coment.setOpinion_coment(request.getParameter("add_coment_book"));
+				coment.setDate_coment(new Date());
+			
+				serviceManager.addComent(coment);
+			//	request.setAttribute("selectDetail",id_book);
+			}
+			if (request.getParameter("selectDetail")!=null )
+			{
+			
 			//System.out.println(request.getParameter("hidden_id_book"));
 			Map<String, Object> model = new HashMap<String, Object>();
-			model.put("showDetail",  serviceManager.listBookByID(Integer.parseInt(request.getParameter("selectDetail"))));
+			model.put("showDetailBook",  serviceManager.listBookByID(Integer.parseInt(request.getParameter("selectDetail"))));
+			request.setAttribute("coments",  serviceManager.listComentsByIDbook(Integer.parseInt(request.getParameter("selectDetail"))));
 			request.setAttribute("countLike", serviceManager.countLikeByIDBook(Integer.parseInt(request.getParameter("selectDetail"))));
 			return new ModelAndView("show", model);
 			
 		}
-		else if (request.getParameter("Edit")!=null){
-			
-			
-		}
-		else if(request.getParameter("Book")!=null){
-			
-		}
-		else if(request.getParameter("Show")!=null){
-			System.out.println(request.getParameter("hidden_id_book"));
-			Map<String, Object> model = new HashMap<String, Object>();
-			model.put("showDetail",  serviceManager.listBook());
-			return new ModelAndView("show", model);
-		}
+		
+		
 		else {
 			
 		}

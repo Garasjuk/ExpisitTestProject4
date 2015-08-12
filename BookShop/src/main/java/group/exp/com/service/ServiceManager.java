@@ -1,6 +1,7 @@
 package group.exp.com.service;
 
 import group.exp.com.model.Book;
+import group.exp.com.model.Cart;
 import group.exp.com.model.Coments;
 import group.exp.com.model.Likes;
 import group.exp.com.model.User;
@@ -19,4 +20,7 @@ public interface ServiceManager {
 	public List<User> allListUser ();
 	public User listUserByID(int id_user);
 	public void updateUser(User user);
+	public void addComent(Coments coment);
+	public void addCart(int id_book, int id_user, int count_cart);
+	public List<Cart> listCartByIDuser(int id_user);
 }

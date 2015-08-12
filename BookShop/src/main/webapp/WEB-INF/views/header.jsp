@@ -35,6 +35,8 @@
 									<c:otherwise>
 										<a href="logout" >Profil</a>
 										/
+										<a href="cart" >Cart</a>
+										/
 										<a href="logout" >Orders</a>
 									</c:otherwise>	
 										

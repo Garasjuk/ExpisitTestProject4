@@ -6,10 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-
-<link href="<c:url value="/src/main/resources/theme/css/style.css"/>"
-	rel="stylesheet">
+<title>Cart</title>
 
 <link href="style.css" rel="stylesheet" type="text/css">
 <link href="iecss.css" rel="stylesheet" type="text/css">
@@ -19,42 +16,36 @@
 		<jsp:include page="header.jsp" />
 	</header>
 	
-	<c:url var="showDetail" value="showDetail" />
-	<form:form method="POST" action="${showDetail}" modelAttribute="book">
+	<c:url var="cart" value="cart" />
+	<form:form method="POST" action="${cart}" modelAttribute="cart">
 		<center>
 			
 			<div id="main_content">
 				<center>
 					<div class="center_content">
 						<div class="center_title_bar">Latest Products</div>
-						<c:forEach items="${book}" var="book">
+						<c:forEach items="${listCart}" var="listCart">
 							<div class="prod_box">
 								<div class="top_prod_box"></div>
 								<div class="center_prod_box">
 									<div class="product_title">
-										<a href="showDetail"><c:out value="${book.name_book}" /></a>
+										<c:out value="${listCart.name_book}" />
 									</div>
 									<div class="product_img">
-										<a href=" <c:url value="showDetail"><c:param name="selectDetail" value="${book.id_book}"/></c:url>"> <img src="images/book.png" alt=""
+										<a href=" <c:url value="showDetail"><c:param name="selectDetail" value="${listCart.id_book}"/></c:url>"> <img src="images/book.png" alt=""
 											border="0" /></a>
 									</div>
 
 									<div class="product_price">
-										<span class="info"><c:out value="${book.price_book}" /></span>
+										<span class="info"><c:out value="${listCart.price_book}" /></span>
 									</div>
 									<div class="prod_count">
-										<span class="info"><c:out value="${book.count_book}" /></span>
+										<span class="info"><c:out value="${listCart.count_book}" /></span>
 									</div>
 									<div class="prod_author">
-										<span class="info"><c:out value="${book.name_author}" /></span>
+										<span class="info"><c:out value="${listCart.count_cart}" /></span>
 									</div>
-									<div class="prod_genre">
-										<span class="info"><c:out value="${book.name_genre}" /></span>
-									</div>
-									<div class="prod_publishing">
-										<span class="info"><c:out
-												value="${book.name_publishing}" /></span>
-									</div>
+									
 										
 									
 

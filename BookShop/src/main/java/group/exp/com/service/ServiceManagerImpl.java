@@ -2,6 +2,7 @@ package group.exp.com.service;
 
 import group.exp.com.dao.ServiceDao;
 import group.exp.com.model.Book;
+import group.exp.com.model.Cart;
 import group.exp.com.model.Coments;
 import group.exp.com.model.Likes;
 import group.exp.com.model.User;
@@ -58,7 +59,14 @@ public class ServiceManagerImpl implements ServiceManager {
 	public void addLike(Likes likes) {
 		serviceDao.addLike(likes);
 	}
+	public void addComent(Coments coment){
+		serviceDao.addComent(coment);
+	}
 
+	public void addCart(int id_book, int id_user, int count_cart) {
+		serviceDao.addCart(id_book, id_user, count_cart);
+	}
+	
 	public void addUser(User user) {
 		serviceDao.addUser(user);
 	}
@@ -69,5 +77,9 @@ public class ServiceManagerImpl implements ServiceManager {
 	
 	public List<User> allListUser (){
 		return serviceDao.allListUser();
+	}
+	
+	public List<Cart> listCartByIDuser(int id_user){
+		return serviceDao.listCartByIDuser(id_user);
 	}
 }

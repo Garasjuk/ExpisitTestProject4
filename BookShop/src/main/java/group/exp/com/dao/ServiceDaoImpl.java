@@ -1,6 +1,7 @@
 package group.exp.com.dao;
 
 import group.exp.com.model.Book;
+import group.exp.com.model.Cart;
 import group.exp.com.model.Coments;
 import group.exp.com.model.Likes;
 import group.exp.com.model.User;
@@ -160,11 +161,28 @@ public class ServiceDaoImpl implements ServiceDao {
 	
 	@SuppressWarnings("unchecked")
 	public List<Coments> listComentsByIDbook(int id_book) {	
-				
-		Query query =sessionFactory.getCurrentSession().createSQLQuery("Select coments.id_book, coments.id_coment, coments.id_user, coments.opinion_coment, coments.date_coment WHERE comwnts.id_book =? ").addEntity(Coments.class);
-		List<Coments> result = query.setInteger(0, id_book).list();
-				 
+		Query query =sessionFactory.getCurrentSession().createSQLQuery("Select coments.id_book, coments.id_coment, coments.id_user, coments.opinion_coment, coments.date_coment,  user.name_user  FROM coments INNER JOIN user ON coments.id_user = user.id_user WHERE coments.id_book like ? ORDER BY coments.date_coment DESC  ").addEntity(Coments.class);
+		List <Coments> result = query.setInteger(0, id_book).list();			 
 		return result;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Cart> listCartByIDuser(int id_user) {	
+		Query query =sessionFactory.getCurrentSession().createSQLQuery("Select cart.id_cart, cart.id_book, cart.id_user, cart.count_cart, book.name_book, book.price_book, book.count_book  FROM cart INNER JOIN book ON cart.id_book = book.id_book WHERE cart.id_user like ?  ").addEntity(Cart.class);
+		List <Cart> result = query.setInteger(0, id_user).list();			 
+		return result;
+	}
+	
+	// To Save the likes detail
+	public void addComent(Coments coment) {
+		sessionFactory.getCurrentSession().save(coment);
+	}
+	// To Save the likes detail
+	public void addCart(int id_book, int id_user, int count_cart) {
+		Query query = sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO cart (id_book, id_user, count_cart) VALUES (?,?,?)");
+		query.setInteger(0, id_book);
+		query.setInteger(1, id_user);
+		query.setInteger(2, count_cart);
+		query.executeUpdate();
+	}
 }

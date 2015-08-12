@@ -18,15 +18,9 @@
 	<header>
 		<jsp:include page="header.jsp" />
 	</header>
-	<center>
-		<h2>Hello World</h2>
-		<h2>${message}${name}</h2>
-	</center>
+	
 	<c:url var="listUser" value="listUser" />
-		<c:if test="${not empty nameUser}">
-			${nameUser}
-		</c:if>
-			${nameUser}
+		
 			
 		<form:form method="POST" action="${listUser}" modelAttribute="listUser">
 			<div id="main_content">

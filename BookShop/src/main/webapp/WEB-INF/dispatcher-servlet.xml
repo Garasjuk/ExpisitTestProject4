@@ -52,6 +52,7 @@
 				
 				<value>group.exp.com.model.Author</value>
 				<value>group.exp.com.model.Book</value>
+				<value>group.exp.com.model.Cart</value>
 				<value>group.exp.com.model.Coments</value>
 				<value>group.exp.com.model.Genre</value>
 				<value>group.exp.com.model.Likes</value>

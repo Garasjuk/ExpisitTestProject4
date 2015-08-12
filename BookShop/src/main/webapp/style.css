@@ -506,16 +506,36 @@ float:left;
 padding:0 0 0 15px;
 text-align:left;
 }
+.details_big_box_comment{
+width:525px;
+float:left;
+padding:0 0 0 15px;
+text-align:left;
+}
 .product_title_big{
 color:#ea2222;
 padding:5px 0 5px 0;
 font-weight:bold;
 font-size:14px;
 }
+.product_title_big_comment{
+color:#ea2222;
+padding:5px 0 5px 0;
+font-weight:bold;
+font-size:16px;
+}
 .specifications{
 font-size:12px;
 font-weight:bold;
 line-height:18px;
+}
+
+.specifications_comment{
+font-size:12px;
+width:100%
+font-weight:bold;
+line-height:18px;
+background-color: #dcd9d9;
 }
 .specifications_admin{
 font-size:18px;
@@ -576,6 +596,17 @@ color:#1c4a52;
 }
 span.blue{
 color:#5F9FAB;
+}
+
+span.comment_blue{
+color:#5F9FAB;
+margin-left: 10%;
+font-size: 14px;
+font-weight:bold;
+}
+span.comment_black{
+color:#000000;
+font-size: 10px;
 }
 /*---------------contact_form------------------*/
 .contact_form{
