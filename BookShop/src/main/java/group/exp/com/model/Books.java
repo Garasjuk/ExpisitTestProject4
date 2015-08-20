@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "book")
-public class Book {
+public class Books {
 
 	@Id
 	@GeneratedValue
@@ -36,7 +36,9 @@ public class Book {
 	@Column(name = "id_publishing")
 	private int id_publishing;
 
-	public Book() {
+	
+
+	public Books() {
 		super();
 	}
 

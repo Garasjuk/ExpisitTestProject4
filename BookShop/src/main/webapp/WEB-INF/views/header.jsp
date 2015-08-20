@@ -26,18 +26,18 @@
 								<br/>
 								<c:choose>
 									<c:when test="${roleUser == 1}">
-										<a href="logout" >Books</a>
+										<a href="addBook" >Books</a>
 										/
 										<a href="showUser" >Users</a>
 										/
-										<a href="logout" >Order</a>
+										<a href="orders" >Order</a>
 									</c:when>
 									<c:otherwise>
-										<a href="logout" >Profil</a>
+										<a href="profil" >Profil</a>
 										/
 										<a href="cart" >Cart</a>
 										/
-										<a href="logout" >Orders</a>
+										<a href="orderUser" >Orders</a>
 									</c:otherwise>	
 										
 								</c:choose>

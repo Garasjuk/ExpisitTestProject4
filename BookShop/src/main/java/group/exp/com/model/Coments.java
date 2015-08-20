@@ -29,7 +29,7 @@ public class Coments {
 	@Column(name = "date_coment")
 	private Date date_coment;
 	
-	private String name_user;
+	
 	
 	public Coments() {
 		super();
@@ -75,12 +75,6 @@ public class Coments {
 		this.date_coment = date_coment;
 	}
 
-	public String getName_user() {
-		return name_user;
-	}
-
-	public void setName_user(String name_user) {
-		this.name_user = name_user;
-	}
+	
 
 }

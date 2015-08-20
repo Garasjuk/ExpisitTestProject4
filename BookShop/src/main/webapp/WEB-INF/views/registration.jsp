@@ -78,7 +78,7 @@ function validatorUserName(input) {
 										<input type="text" name="add_name_user" required>
 									</div>
 									<div class="product_title">Adres : 
-										<input type="text" name="add_adres_user" required>
+										<textarea name="add_adres_user" required ></textarea>
 									</div>
 									<div class="product_title">Email : 
 										<input type="text" name="add_email_user" required>

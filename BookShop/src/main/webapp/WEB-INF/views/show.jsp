@@ -40,21 +40,21 @@
 						<div class="details_big_box">
 						<c:forEach items="${showDetailBook}" var="showDetailBook">
 							<div class="product_title_big">
-								<c:out value="${showDetailBook.name_book}" />
-								<input type="hidden" name="selectDetail" value="${showDetailBook.id_book}">
+								<c:out value="${showDetailBook[1]}" />
+								<input type="hidden" name="selectDetail" value="${showDetailBook[0]}">
 										
 										
 							</div>
 							
 							<div class="specifications">
-								Price: <span class="blue"><c:out value="${showDetailBook.price_book}"/></span><br />
-								Count: <span class="blue"><c:out value="${showDetailBook.count_book}" /></span><br /> 
-								Author: <span class="blue"><c:out value="${showDetailBook.name_author}"/></span><br />
-								Genre: <span class="blue"><c:out value="${showDetailBook.name_genre}"/></span><br />
-								Publishing: <span class="blue"><c:out value="${showDetailBook.name_publishing}"/></span><br /> 
+								Price: <span class="blue"><c:out value="${showDetailBook[3]}"/></span><br />
+								Count: <span class="blue"><c:out value="${showDetailBook[2]}" /></span><br /> 
+								Author: <span class="blue"><c:out value="${showDetailBook[8]}"/></span><br />
+								Genre: <span class="blue"><c:out value="${showDetailBook[10]}"/></span><br />
+								Publishing: <span class="blue"><c:out value="${showDetailBook[9]}"/></span><br /> 
 								
 								<c:if test="${not empty nameUser}">
-									<a href=" <c:url value="addLike"><c:param name="selectDetail" value="${showDetailBook.id_book}"/></c:url>"> <img src="images/like.gif" alt=""
+									<a href=" <c:url value="addLike"><c:param name="selectDetail" value="${showDetailBook[0]}"/></c:url>"> <img src="images/like.gif" alt=""
 											border="0" />Like:  </a><c:out value="${countLike}"/>
 								</c:if>
 								<c:if test="${empty nameUser}">
@@ -66,7 +66,7 @@
 							
 							
 							
-							<a href="<c:url value="addToCart"><c:param name="selectDetail" value="${showDetailBook.id_book}"/></c:url> " class="addtocart">add to
+							<a href="<c:url value="addToCart"><c:param name="selectDetail" value="${showDetailBook[0]}"/></c:url> " class="addtocart">add to
 								cart</a> 
 						
 						
@@ -89,12 +89,12 @@
 									
 									<c:forEach items="${coments}" var="coments">
 										<div class="product_title_big_comment">
-											<c:out value="${coments.name_user}" />
+											<c:out value="${coments[5]}" />
 										</div>
 										
 										<div class="specifications_comment">
-											<span class="comment_blue"><c:out value="${coments.opinion_coment}"/></span><br />
-											<span class="comment_black"><c:out value="${coments.date_coment}" /></span><br /> 
+											<span class="comment_blue"><c:out value="${coments[3]}"/></span><br />
+											<span class="comment_black"><c:out value="${coments[4]}" /></span><br /> 
 
 										</div>
 									</c:forEach>									
@@ -102,9 +102,7 @@
 										<div class="product_title">Comment :
 											<textarea name="add_coment_book" required ></textarea>
 										</div>
-										<c:forEach items="${showDetailBook}" var="showDetailBook">
-											<a href=" <c:url value="addComent"><c:param name="selectDetail" value="${showDetailBook.id_book}"/></c:url>"> Add Comment  </a>
-										</c:forEach>
+										
 										<input type="submit" name="addComent" value="Add comment">
 									</c:if>
 								</div>
