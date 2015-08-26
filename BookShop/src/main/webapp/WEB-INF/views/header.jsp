@@ -31,6 +31,8 @@
 										<a href="showUser" >Users</a>
 										/
 										<a href="orders" >Order</a>
+										/
+										<a href="editPassword">Edit password</a>
 									</c:when>
 									<c:otherwise>
 										<a href="profil" >Profil</a>

@@ -9,6 +9,9 @@ import group.exp.com.model.Orders;
 import group.exp.com.model.User;
 import group.exp.com.service.ServiceManager;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.text.ParseException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -110,6 +113,34 @@ public class Control {
 		return new ModelAndView("money");
 	}
 	
+	@RequestMapping(value ="/editPassword", method = RequestMethod.GET)
+	public ModelAndView editPassword( HttpServletRequest request, HttpServletResponse response) throws NoSuchAlgorithmException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		HttpSession session = request.getSession(true);
+		Integer id = (Integer) session.getAttribute("idUser");
+		if (request.getParameter("editPassword") != null){
+			if (request.getParameter("pass1").equals(request.getParameter("pass2"))){
+				MessageDigest md5 ;        
+				StringBuffer  hexString = new StringBuffer();
+				md5 = MessageDigest.getInstance("md5");
+				md5.reset();
+				md5.update(request.getParameter("pass1").getBytes());
+				byte messageDigest[] = md5.digest();
+				for (int i = 0; i < messageDigest.length; i++) {
+					hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+				}
+				serviceManager.updataPassword(id, hexString.toString());
+		//		System.out.println( "MD5" +hexString.toString());
+			//	return new ModelAndView("profil");
+			}
+			else{
+				request.setAttribute("errorPassword", "Password is not equal!");	
+			}		
+		}
+			return new ModelAndView("editPassword");
+	}
+	
+	
 	@RequestMapping(value ="/showUser", method = RequestMethod.GET)
 	public ModelAndView showUser( HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -188,6 +219,8 @@ public class Control {
 				
 				serviceManager.updateUsermoney(id, user.getMoney_user() - Integer.parseInt(request.getParameter("priceBook")) * Integer.parseInt(request.getParameter("order_count_cart")));
 				
+				serviceManager.updateUserSpendMoney(id, user.getSpend_money() + Integer.parseInt(request.getParameter("priceBook")) * Integer.parseInt(request.getParameter("order_count_cart")));
+				
 			}
 		}
 		
@@ -251,7 +284,7 @@ public class Control {
 			if((orderMonth - newMonth) ==0){
 				System.out.println("Year "+ (orderMonth - newMonth));
 				if((orderDay - newDay) ==0){
-					
+					serviceManager.updateUsermoney(id, (Integer.parseInt(request.getParameter("priceBook"))*70) /100 + user.getMoney_user());
 				}
 			}
 			else if (newDay + (30 - orderDay) > 30 ) {
@@ -297,31 +330,67 @@ public class Control {
 				serviceManager.updataOrder(Integer.parseInt(request.getParameter("selectIdOrder")), request.getParameter("selectStatus"));
 			}
 		}
-		
-		model.put("listOrders",  serviceManager.listOrders());
+		if (request.getParameter("radioFilter") != null){
+			System.out.println("radioFilter =" + request.getParameter("radioFilter"));
+			if (request.getParameter("radioFilter").equals("all")){
+				model.put("listOrders",  serviceManager.listOrders());
+			}
+			else if(request.getParameter("radioFilter").equals("done")){
+				model.put("listOrders",  serviceManager.listOrdersFilter("delivered"));
+			}
+			else if(request.getParameter("radioFilter").equals("notDone")){
+				model.put("listOrders",  serviceManager.listOrdersFilterNot("delivered"));
+			}else{
+				model.put("listOrders",  serviceManager.listOrders());
+			}
+		}else{
+			model.put("listOrders",  serviceManager.listOrders());
+		}
 		
 		return new ModelAndView("orders", model);
 		
 	}
 	
 	@RequestMapping(value ="/addRegistration", method = RequestMethod.POST)
-	public ModelAndView addRegistration(@ModelAttribute("user") User user, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView addRegistration(@ModelAttribute("user") User user, HttpServletRequest request, HttpServletResponse response) throws NoSuchAlgorithmException {
 		
 		
-		user.setName_user(request.getParameter("add_name_user"));
-		user.setPass_user(request.getParameter("add_pass_user"));
-		user.setAdres_user(request.getParameter("add_adres_user"));
-		user.setEmail(request.getParameter("add_email_user"));
-		if (request.getParameter("identif") != null){
-			user.setIdentif(request.getParameter("identif"));
-		}else
-		{
-			user.setIdentif("0");
+		user = serviceManager.listSearchEmail(request.getParameter("add_email_user"));
+		if (user !=null){
+			request.setAttribute("errorEmail", "E-Mail already exists!");
+			return new ModelAndView("registration");
 		}
-		
-		user.setMoney_user(0);
-		serviceManager.addUser(user);
-	
+		if (request.getParameter("add_pass1_user").equals(request.getParameter("add_pass2_user"))){
+			
+			MessageDigest md5 ;        
+			StringBuffer  hexString = new StringBuffer();
+			md5 = MessageDigest.getInstance("md5");
+			md5.reset();
+			md5.update(request.getParameter("add_pass1_user").getBytes());
+			byte messageDigest[] = md5.digest();
+			for (int i = 0; i < messageDigest.length; i++) {
+				hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+			}
+			user.setName_user(request.getParameter("add_name_user"));
+			user.setPass_user(hexString.toString());
+			user.setAdres_user(request.getParameter("add_adres_user"));
+			user.setEmail(request.getParameter("add_email_user"));	
+			
+			if (request.getParameter("identif") != null){
+				user.setIdentif(request.getParameter("identif"));
+			}else
+			{
+				user.setIdentif("0");
+			}
+			
+			user.setMoney_user(0);
+			serviceManager.addUser(user);
+			
+		}
+		else{
+			request.setAttribute("errorPassword", "Password is not equal!");
+		}
+			
 		return new ModelAndView("registration");
 	}
 	
@@ -415,18 +484,25 @@ public class Control {
 	}
 	
 	@RequestMapping("/listUser")
-	public String listUser( HttpServletRequest request, HttpServletResponse response) {
+	public String listUser( HttpServletRequest request, HttpServletResponse response) throws NoSuchAlgorithmException, NoSuchProviderException {
 		HttpSession session = request.getSession(true);
 
 		Map<String, Object> model = new HashMap<String, Object>();
 		
+		MessageDigest md5 ;        
+		StringBuffer  hexString = new StringBuffer();
+		md5 = MessageDigest.getInstance("md5");
+		md5.reset();
+		md5.update(request.getParameter("pass_user_login").getBytes());
+		byte messageDigest[] = md5.digest();
+		for (int i = 0; i < messageDigest.length; i++) {
+			hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+		}
+		System.out.println( "MD5" +hexString.toString());
 		
-		User user = serviceManager.listUser(request.getParameter("name_user_login"),request.getParameter("pass_user_login"));
-				
-	
+		User user = serviceManager.listUser(request.getParameter("name_user_login"),hexString.toString());
+			
 		//model.put("loginList",  serviceManager.listUser(request.getParameter("name_user_login"),request.getParameter("pass_user_login") ));
-		request.setAttribute("name", name = "Val");
-		request.setAttribute("message", message = "Hellow!");
 		
 		if (user != null ){
 			session.setAttribute("idUser", user.getId_user());
@@ -454,6 +530,20 @@ public class Control {
 			HttpSession session = request.getSession(true);
 		
 		
+			if (request.getParameter("editBook") !=null){
+				
+				System.out.println("Id_book " + request.getParameter("selectDetail"));
+				System.out.println("edit_name_book " + request.getParameter("edit_name_book"));
+				System.out.println("edit_price_book " + request.getParameter("edit_price_book"));
+				System.out.println("edit_count_book " + request.getParameter("edit_count_book"));
+				System.out.println("edit_author_book " + request.getParameter("edit_author_book"));
+				System.out.println("edit_genre_book " + request.getParameter("edit_genre_book"));
+				System.out.println("edit_publishing_book " + request.getParameter("edit_publishing_book"));
+				
+				serviceManager.updataBook(Integer.parseInt(request.getParameter("selectDetail")), request.getParameter("edit_name_book"), Integer.parseInt(request.getParameter("edit_price_book")), Integer.parseInt(request.getParameter("edit_count_book")), Integer.parseInt(request.getParameter("edit_author_book")), Integer.parseInt(request.getParameter("edit_genre_book")), Integer.parseInt(request.getParameter("edit_publishing_book")));
+				
+				
+			}
 			if (request.getParameter("addToCart") !=null){
 				Cart cart = new Cart();
 				
@@ -481,6 +571,11 @@ public class Control {
 			model.put("showDetailBook",  serviceManager.listBookByID(Integer.parseInt(request.getParameter("selectDetail"))));
 			request.setAttribute("coments",  serviceManager.listComentsByIDbook(Integer.parseInt(request.getParameter("selectDetail"))));
 			request.setAttribute("countLike", serviceManager.countLikeByIDBook(Integer.parseInt(request.getParameter("selectDetail"))));
+			
+			request.setAttribute("genre", serviceManager.allListGenre());
+			request.setAttribute("author", serviceManager.allListAuthor());
+			request.setAttribute("publishing", serviceManager.allListPublishing());
+			
 			return new ModelAndView("show", model);
 			
 		}

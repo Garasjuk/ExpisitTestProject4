@@ -2,7 +2,6 @@ package group.exp.com.dao;
 
 import group.exp.com.model.Author;
 import group.exp.com.model.Book;
-import group.exp.com.model.Books;
 import group.exp.com.model.Cart;
 import group.exp.com.model.Coments;
 import group.exp.com.model.Genre;
@@ -47,7 +46,8 @@ public class ServiceDaoImpl implements ServiceDao {
 		" book.count_book as '2', book.price_book as '3', book.id_genre as '4', book.id_author as '5', book.new_book as '6',"+
 		" book.id_publishing as '7',author.name_author as '8', publishing.name_publishing as '9', genre.name_genre as '10' "+
 		" FROM publishing INNER JOIN (genre INNER JOIN (author INNER JOIN book ON author.id_author = book.id_author)"+
-		" ON genre.id_genre = book.id_genre) ON publishing.id_publishing = book.id_publishing");
+		" ON genre.id_genre = book.id_genre) ON publishing.id_publishing = book.id_publishing "+
+		" ORDER BY book.name_book");
 		List result = query.list();
 		return result;
 	}
@@ -58,7 +58,8 @@ public class ServiceDaoImpl implements ServiceDao {
 		" book.id_publishing as '7',author.name_author as '8', publishing.name_publishing as '9', genre.name_genre as '10' "+
 		" FROM publishing INNER JOIN (genre INNER JOIN (author INNER JOIN book ON author.id_author = book.id_author)"+
 		" ON genre.id_genre = book.id_genre) ON publishing.id_publishing = book.id_publishing "+
-		" WHERE genre.id_genre like ?");
+		" WHERE genre.id_genre like ? "+
+		" ORDER BY book.name_book");
 		query.setInteger(0, id_genre);
 		List result = query.list();
 		return result;
@@ -70,7 +71,8 @@ public class ServiceDaoImpl implements ServiceDao {
 		" book.id_publishing as '7',author.name_author as '8', publishing.name_publishing as '9', genre.name_genre as '10' "+
 		" FROM publishing INNER JOIN (genre INNER JOIN (author INNER JOIN book ON author.id_author = book.id_author)"+
 		" ON genre.id_genre = book.id_genre) ON publishing.id_publishing = book.id_publishing "+
-		" WHERE author.id_author like ?");
+		" WHERE author.id_author like ? "+
+		" ORDER BY book.name_book");
 		query.setInteger(0, id_author);
 		List result = query.list();
 		return result;
@@ -81,7 +83,8 @@ public class ServiceDaoImpl implements ServiceDao {
 		" book.id_publishing as '7',author.name_author as '8', publishing.name_publishing as '9', genre.name_genre as '10' "+
 		" FROM publishing INNER JOIN (genre INNER JOIN (author INNER JOIN book ON author.id_author = book.id_author)"+
 		" ON genre.id_genre = book.id_genre) ON publishing.id_publishing = book.id_publishing "+
-		" WHERE publishing.id_publishing like ?");
+		" WHERE publishing.id_publishing like ? "+
+		" ORDER BY book.name_book");
 		query.setInteger(0, id_publishing);
 		List result = query.list();
 		return result;
@@ -92,7 +95,8 @@ public class ServiceDaoImpl implements ServiceDao {
 		" book.id_publishing as '7',author.name_author as '8', publishing.name_publishing as '9', genre.name_genre as '10' "+
 		" FROM publishing INNER JOIN (genre INNER JOIN (author INNER JOIN book ON author.id_author = book.id_author)"+
 		" ON genre.id_genre = book.id_genre) ON publishing.id_publishing = book.id_publishing "+
-		" WHERE book.new_book like ?");
+		" WHERE book.new_book like ? "+
+		" ORDER BY book.name_book");
 		query.setInteger(0, new_book);
 		List result = query.list();
 		return result;
@@ -120,8 +124,7 @@ public class ServiceDaoImpl implements ServiceDao {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
                    .add(Restrictions.eq("name_user", name_user))
                    .add(Restrictions.eq("pass_user", pass_user));
-         return (User) criteria.uniqueResult();
-        		 
+         return (User) criteria.uniqueResult();	 
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -131,6 +134,13 @@ public class ServiceDaoImpl implements ServiceDao {
          return (User) criteria.uniqueResult();
 	}
 	
+	public User listSearchEmail(String email){
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
+                .add(Restrictions.eq("email", email));
+      return (User) criteria.uniqueResult();
+	}
+	
+	
 	public void updateUser(User user) {
 		sessionFactory.getCurrentSession().update(user);
 	}
@@ -139,21 +149,20 @@ public class ServiceDaoImpl implements ServiceDao {
 		Query query = sessionFactory.getCurrentSession().createSQLQuery("UPDATE book SET count_book = ? WHERE id_book = ?");
 		query.setInteger(0, count_book);
 		query.setInteger(1, id_book);
-		
 		query.executeUpdate();
 	}	
 	
 	@SuppressWarnings("unchecked")
 	public List<User> allListUser() {	
-		Query query =  sessionFactory.getCurrentSession().createSQLQuery("Select id_user, name_user, money_user, adres_user, pass_user, identif, email FROM user").addEntity(User.class);
+		Query query =  sessionFactory.getCurrentSession().createSQLQuery("Select id_user, name_user, money_user, adres_user, pass_user, identif, email, spend_money FROM user ORDER BY name_user").addEntity(User.class);
         List<User> user = query.list();          
         return user;	
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Books> allListBooks() {	
-		Query query =  sessionFactory.getCurrentSession().createSQLQuery("Select book.id_book, book.name_book, book.count_book, book.price_book, book.id_genre, book.id_author, book.new_book, book.id_publishing FROM book").addEntity(Books.class);
-        List<Books> result = query.list();          
+	public List<Book> allListBook() {	
+		Query query =  sessionFactory.getCurrentSession().createSQLQuery("Select book.id_book, book.name_book, book.count_book, book.price_book, book.id_genre, book.id_author, book.new_book, book.id_publishing FROM book").addEntity(Book.class);
+        List<Book> result = query.list();          
         return result;	
 	}
 	
@@ -194,12 +203,10 @@ public class ServiceDaoImpl implements ServiceDao {
 		
 	// To Save the likes detail
 	public int listLikeByIdUserBook(int id_book, int id_user) {
-		
 		return ((Number)  sessionFactory.getCurrentSession().createSQLQuery("SELECT count(*) FROM likes WHERE id_book like ? AND id_user like ?")
 				.setInteger(0, id_book)
 				.setInteger(1, id_user)
-				.uniqueResult()).intValue();
-				
+				.uniqueResult()).intValue();		
 	}
 		
 	// To Save the likes detail
@@ -215,7 +222,8 @@ public class ServiceDaoImpl implements ServiceDao {
 	public List listBookByID(int id_book) {		
 		Query query =sessionFactory.getCurrentSession().createSQLQuery("Select book.id_book as '0', book.name_book as '1',"+
 		" book.count_book as '2', book.price_book as '3', book.id_genre as '4', book.id_author as '5', book.new_book as '6', book.id_publishing as '7', "+
-		" author.name_author as '8', publishing.name_publishing as '9', genre.name_genre as '10' "+
+		" author.name_author as '8', publishing.name_publishing as '9', genre.name_genre as '10', "+
+		" author.id_author as '11', publishing.id_publishing as '12', genre.id_genre as '13' "+
 		" FROM publishing INNER JOIN "+
 		" (genre INNER JOIN "+
 		" (author INNER JOIN "+
@@ -271,83 +279,78 @@ public class ServiceDaoImpl implements ServiceDao {
 		
 	}
 
-/*
-	// To Save the likes detail
-	public void addOrder(int id_book, int id_user, int count_order, String adres_order, String other_order) {
-		System.out.println("-----------------------------------------");
-		System.out.println("id_book: " + id_book);
-		System.out.println("id_user: " + id_user);
-		System.out.println("count_order: " + count_order);
-		System.out.println("adres_order: " + adres_order);
-		System.out.println("other_order: " + other_order);
-		
-		Query query = sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO orders (id_book, id_user, count_order, adres_order, date_order, other_order) VALUES (?,?,?,?,?,?)");
-		query.setInteger(0, id_book);
-		query.setInteger(1, id_user);
-		query.setInteger(2, count_order);
-		query.setString(3,adres_order);
-		query.setDate(4, new Date());
-		query.setString(5, other_order);
-				
-		query.executeUpdate();
-	}
-*/
-	
 	public List<Cart> cartByID(int id_cart) {	
 		Query query =sessionFactory.getCurrentSession().createSQLQuery("Select cart.id_cart, cart.id_book, cart.id_user, cart.count_cart, book.name_book, book.price_book, book.count_book  FROM cart INNER JOIN book ON cart.id_book = book.id_book WHERE cart.id_cart like ?  ").addEntity(Cart.class);
 		List <Cart> result = query.setInteger(0, id_cart).list();			 
 		return result;
 	}
 	
-/*	@SuppressWarnings("unchecked")
-	public List<Orders> listOrders() {	
-		Query query =  sessionFactory.getCurrentSession().createSQLQuery("Select * FROM orders").addEntity(Orders.class);
-        List<Orders> result = query.list();          
-        return result;	
-	}
-*/	
 	@SuppressWarnings("unchecked")
 	public List listOrders() {	
-/*		Criteria query =  sessionFactory.getCurrentSession().createCriteria(Orders.class);
-		query.createAlias("book","b");
-		query.setProjection(Projections.projectionList()
-			.add(Projections.property("id_order"))
-			.add(Projections.property("b.name_book")));
-		
-		List orderss = query.list();
-		for (int i=0;i< orderss.size();i++){
-			Object[] orders = (Object[]) orderss.get(i);
-				System.out.println(orders[0] + "\t"
-									+ orders[1] + "\t");
-		}
- */		//criteria.createAlias("book","book");
-		//criteria.add(Restrictions.eq("descriptionsAlias.locate","en_US"));
-	//	criteria.list();
-		
-		
-		
-//		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Orders.class);
-//		criteria.createAlias("book.user", null, Criteria.INNER_JOIN);
-		//criteria.add(Restrictions.eq("descriptionsAlias.locate","en_US"));
-//		criteria.list();
-		Query query =  sessionFactory.getCurrentSession().createSQLQuery("SELECT orders.id_order, book.name_book, author.name_author, publishing.name_publishing, genre.name_genre, orders.id_book, orders.id_user, orders.count_order, orders.adres_order, user.name_user, orders.status_order " +
-				"FROM publishing INNER JOIN "+ 
-				"(genre INNER JOIN "+
-				"(author INNER JOIN "+
-				"((orders INNER JOIN "+
-				"book ON orders.id_book = book.id_book) INNER JOIN "+
-				"user ON orders.id_user = user.id_user) ON author.id_author = book.id_author) ON genre.id_genre = book.id_genre) ON publishing.id_publishing = book.id_publishing;");
-		
-	//	Query query =  sessionFactory.getCurrentSession().createSQLQuery("Select id_order, id_book, id_user, count_order, adres_order, date_order, other_order  FROM orders").addEntity(Orders.class);
+		Query query =  sessionFactory.getCurrentSession().createSQLQuery("SELECT orders.id_order as '0', book.name_book as '1',"+
+			" author.name_author as '2', publishing.name_publishing as '3', genre.name_genre as '4', orders.id_book as '5',"+
+			" orders.id_user as '6', orders.count_order as '7', orders.adres_order as '8', user.name_user as '9', orders.status_order as '10', " +
+			" orders.date_order as '11' "+
+			" FROM publishing INNER JOIN "+ 
+			"(genre INNER JOIN "+
+			"(author INNER JOIN "+
+			"((orders INNER JOIN "+
+			"book ON orders.id_book = book.id_book) INNER JOIN "+
+			"user ON orders.id_user = user.id_user) ON author.id_author = book.id_author) ON genre.id_genre = book.id_genre) ON publishing.id_publishing = book.id_publishing "+
+			"ORDER BY orders.date_order DESC");
 		List result = query.list();          
         return result;	
 	}
 
+	
+	public List listOrdersFilter(String status_order) {	
+		Query query =  sessionFactory.getCurrentSession().createSQLQuery("SELECT orders.id_order as '0', book.name_book as '1',"+
+			" author.name_author as '2', publishing.name_publishing as '3', genre.name_genre as '4', orders.id_book as '5',"+
+			" orders.id_user as '6', orders.count_order as '7', orders.adres_order as '8', user.name_user as '9', orders.status_order as '10', " +
+			" orders.date_order as '11' "+
+			"FROM publishing INNER JOIN "+ 
+			"(genre INNER JOIN "+
+			"(author INNER JOIN "+
+			"((orders INNER JOIN "+
+			"book ON orders.id_book = book.id_book) INNER JOIN "+
+			"user ON orders.id_user = user.id_user) ON author.id_author = book.id_author) ON genre.id_genre = book.id_genre) ON publishing.id_publishing = book.id_publishing"+
+			" WHERE orders.status_order like ? "+
+			"ORDER BY orders.date_order DESC ");
+			query.setString(0, status_order);
+		List result = query.list();          
+        return result;	
+	}
+	
+	public List listOrdersFilterNot(String status_order) {	
+		Query query =  sessionFactory.getCurrentSession().createSQLQuery("SELECT orders.id_order as '0', book.name_book as '1',"+
+			" author.name_author as '2', publishing.name_publishing as '3', genre.name_genre as '4', orders.id_book as '5',"+
+			" orders.id_user as '6', orders.count_order as '7', orders.adres_order as '8', user.name_user as '9', orders.status_order as '10', " +
+			" orders.date_order as '11' "+
+			"FROM publishing INNER JOIN "+ 
+			"(genre INNER JOIN "+
+			"(author INNER JOIN "+
+			"((orders INNER JOIN "+
+			"book ON orders.id_book = book.id_book) INNER JOIN "+
+			"user ON orders.id_user = user.id_user) ON author.id_author = book.id_author) ON genre.id_genre = book.id_genre) ON publishing.id_publishing = book.id_publishing"+
+			" WHERE orders.status_order NOT LIKE ? "+
+			"ORDER BY orders.date_order DESC");
+			query.setString(0, status_order);
+		List result = query.list();          
+        return result;	
+	}
+	
 	// To Save the likes detail
 	public void updataOrder(int id_order, String selectStatus) {
 		Query query = sessionFactory.getCurrentSession().createSQLQuery("UPDATE orders SET status_order = ? WHERE id_order = ?");
 		query.setString(0, selectStatus);
 		query.setInteger(1, id_order);
+		query.executeUpdate();
+	}
+	
+	public void updataPassword(int id_user, String pass) {
+		Query query = sessionFactory.getCurrentSession().createSQLQuery("UPDATE user SET pass_user = ? WHERE id_user = ?");
+		query.setString(0, pass);
+		query.setInteger(1, id_user);
 		query.executeUpdate();
 	}
 	
@@ -365,9 +368,18 @@ public class ServiceDaoImpl implements ServiceDao {
 		query.setInteger(2, id_order);
 		query.executeUpdate();
 	}	
-	public List<Book> allListBook() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public void updataBook(int id_book, String name_book, int price_book, int count_book, int author_book, int genre_book, int publishing_book) {
+		Query query = sessionFactory.getCurrentSession().createSQLQuery("UPDATE book SET name_book = ?, count_book = ?, price_book = ?, id_genre = ?, id_author = ?, id_publishing = ? WHERE id_book = ?");
+		query.setString(0, name_book);
+		query.setInteger(1, count_book);
+		query.setInteger(2, price_book);
+		query.setInteger(3, genre_book);
+		query.setInteger(4, author_book);
+		query.setInteger(5, publishing_book);
+		query.setInteger(6, id_book);
+		
+		query.executeUpdate();
 	}
 	
 	// To Save the likes detail
@@ -400,4 +412,11 @@ public class ServiceDaoImpl implements ServiceDao {
 			query.setInteger(1, id_user);
 			query.executeUpdate();
 		}
+		
+	public void updateUserSpendMoney(int id_user, int spend_money) {	
+		Query query = sessionFactory.getCurrentSession().createSQLQuery("UPDATE user SET spend_money = ? WHERE id_user = ?");
+		query.setInteger(0, spend_money);
+		query.setInteger(1, id_user);
+		query.executeUpdate();
+	}
 }

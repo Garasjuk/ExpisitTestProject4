@@ -41,9 +41,22 @@
 												<td align="right">
 													<div class="product_title">Money : </div> 
 												</td>
-												<td align="left">	
-													<input type="text" name="edit_money_user" required value="${listProfil.money_user}"  disabled="disabled">
+												<td align="left">
+													<label style="font-size: 18px; font-weight:bold; color: blue;">	
+														<c:out value="${listProfil.money_user}"  />
+													</label>	
 													<a href="addMoney">Add money</a>
+												</td>
+										</tr>
+										<tr bgcolor="#dcd9d9"> 	
+												<td align="right">
+													<div class="product_title">Spend money : </div> 
+												</td>
+												<td align="left">
+													<label style="font-size: 18px; font-weight:bold; color:olive;">	
+														<c:out value="${listProfil.spend_money}"  />
+													</label>	
+													
 												</td>
 										</tr>
 										<tr bgcolor="#dcd9d9">
@@ -60,6 +73,7 @@
 												</td>	
 												<td align="left">
 													<input type="text" name="edit_pass_user" required value="${listProfil.pass_user}" disabled="disabled">
+													<a href="editPassword">Edit password</a>
 												</td>
 										</tr>
 										<tr bgcolor="#dcd9d9">

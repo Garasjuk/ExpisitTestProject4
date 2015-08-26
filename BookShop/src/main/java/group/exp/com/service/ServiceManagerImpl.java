@@ -3,7 +3,6 @@ package group.exp.com.service;
 import group.exp.com.dao.ServiceDao;
 import group.exp.com.model.Author;
 import group.exp.com.model.Book;
-import group.exp.com.model.Books;
 import group.exp.com.model.Cart;
 import group.exp.com.model.Coments;
 import group.exp.com.model.Genre;
@@ -118,13 +117,9 @@ public class ServiceManagerImpl implements ServiceManager {
 		return serviceDao.allListGenre();
 
 	}
-
+	
 	public List<Book> allListBook() {
 		return serviceDao.allListBook();
-	}
-
-	public List<Books> allListBooks() {
-		return serviceDao.allListBooks();
 	}
 
 	public List<Author> allListAuthor() {
@@ -195,5 +190,25 @@ public class ServiceManagerImpl implements ServiceManager {
 
 	public void updataBookNew(int id_book, int count_book) {
 		serviceDao.updataBookNew(id_book, count_book);
+	}
+	
+	public List listOrdersFilter(String status_order){
+		return serviceDao.listOrdersFilter(status_order);
+	}
+	
+	public List listOrdersFilterNot(String status_order){
+		return serviceDao.listOrdersFilterNot(status_order);
+	}
+	public void updataPassword(int id_user, String pass){
+		serviceDao.updataPassword(id_user, pass);
+	}
+	public User listSearchEmail(String email){
+		return serviceDao.listSearchEmail(email);
+	}
+	public void updateUserSpendMoney(int id_user, int spend_money){
+		serviceDao.updateUserSpendMoney(id_user, spend_money);
+	}
+	public void updataBook(int id_book, String name_book, int price_book, int count_book, int author_book, int genre_book, int publishing_book){
+		serviceDao.updataBook(id_book, name_book, price_book, count_book, author_book, genre_book, publishing_book);
 	}
 }

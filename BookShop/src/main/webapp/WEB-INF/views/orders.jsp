@@ -24,25 +24,41 @@
 					<div class="center_content_orders">
 
 						<div class="center_title_bar_orders">Orders</div>
-
+						<div class="center_title_bar_orders">
+							<input type="radio" name="radioFilter" value="all" onchange="this.form.submit();">All
+							<input type="radio" name="radioFilter" value="done" onchange="this.form.submit();"> Done
+							<input type="radio" name="radioFilter" value="notDone" onchange="this.form.submit();">Not Done
+							
+						</div>
 						<table border="0" width="100%" style="font-size: 14px;">
-
-							<c:forEach items="${listOrders}" var="listOrders">
+								<tr>
+									<th>1</th>
+									<th>2</th>
+									<th>3</th>
+									<th>4</th>
+									<th>5</th>
+									<th>6</th>
+									<th>7</th>
+									<th>8</th>
+									<th>9</th>
+									<th>10</th>
+									
+								</tr>
+							<c:forEach items="${listOrders}" var="listOrders">								
 								<tr bgcolor="#dcd9d9">
-
 									<td width="3%" style="font-weight: bold;">
 										<c:out value="${listOrders[0]}" />
 									</td>
 									<td width="10%" style="text-align: right;">
 										<c:out value="${listOrders[1]}" />
 									</td>
-									<td width="15%" style="text-align: left;">
+									<td width="13%" style="text-align: left;">
 										<c:out value="${listOrders[2]}" />
 									</td>
-									<td width="15%">
+									<td width="13%">
 										<c:out value="${listOrders[3]}" />
 									</td>
-									<td width="15%">
+									<td width="10%">
 										<c:out value="${listOrders[4]}" />
 									</td>
 									<td width="3%">
@@ -54,6 +70,10 @@
 									<td width="10%" style="text-align: left;">
 										<c:out	value="${listOrders[9]}" />
 									</td>
+										<td width="9%" style="text-align: left;">
+										<c:out	value="${listOrders[11]}" />
+									</td>
+									
 									<td width="9%" style="text-align: left;">
 										
 										<select name="selectStatus" required onchange="location.href = '<c:url value="orders"><c:param name="selectIdOrder" value="${listOrders[0]}"/><c:param name="selectStatus" value=""/></c:url>' + this.options[this.selectedIndex].value" >

@@ -34,7 +34,7 @@
 									<input type="text" name="name_user_login" required >
 								</div>
 								<div class="product_title">Pass : 
-									<input type="text" name="pass_user_login" required >
+									<input type="password" name="pass_user_login" required >
 								</div>
 								<div class="product_title">
 									<c:out value="${errorLogin}" /> 

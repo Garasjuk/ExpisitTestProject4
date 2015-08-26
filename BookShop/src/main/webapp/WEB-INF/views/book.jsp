@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Book shop</title>
 
 <link href="<c:url value="/src/main/resources/theme/css/style.css"/>"
 	rel="stylesheet">
@@ -39,6 +39,9 @@
 									<td>
 										Publishing
 									</td>
+									<td>
+										Condition
+									</td>
 								</tr>
 								<tr>
 									<td>
@@ -65,9 +68,6 @@
 											</c:forEach>
 										</select>
 									</td>	
-								</tr>
-								<tr>
-									<td></td>
 									<td>
 										<select name="new_book_filter" required onchange="location.href = '<c:url value="showBook"><c:param name="new_book_filter" value=""/></c:url>' + this.options[this.selectedIndex].value">
 											<option></option>
@@ -75,8 +75,8 @@
 											<option value ="0">Past in usage </option>
 										</select>
 									</td>
-									<td></td>
 								</tr>
+								
 							</table>	
 						</div>
 						<c:forEach items="${book}" var="book">

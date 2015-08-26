@@ -2,7 +2,6 @@ package group.exp.com.dao;
 
 import group.exp.com.model.Author;
 import group.exp.com.model.Book;
-import group.exp.com.model.Books;
 import group.exp.com.model.Cart;
 import group.exp.com.model.Coments;
 import group.exp.com.model.Genre;
@@ -39,7 +38,6 @@ public interface ServiceDao {
 	
 	public List<Genre> allListGenre();
 	public List<Book> allListBook();
-	public List<Books> allListBooks();
 	public List<Author> allListAuthor();
 	public List<Publishing> allListPublishing();
 	public void updataOrder(int id_order, String selectStatus);
@@ -57,4 +55,10 @@ public interface ServiceDao {
 	public void updataOrderReturn(int id_order, int returnOrder);
 	public Book listBook(String name_book, int id_genre, int id_author, int id_publishing, int new_book);
 	public void updataBookNew(int id_book, int count_book);
+	public List listOrdersFilter(String status_order);
+	public List listOrdersFilterNot(String status_order);
+	public void updataPassword(int id_user, String pass);
+	public User listSearchEmail(String email);
+	public void updateUserSpendMoney(int id_user, int spend_money);
+	public void updataBook(int id_book, String name_book, int price_book, int count_book, int author_book, int genre_book, int publishing_book);
 }

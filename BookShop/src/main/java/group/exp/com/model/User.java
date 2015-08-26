@@ -33,6 +33,9 @@ public class User {
 	@Column(name = "email")
 	private String email;
 
+	@Column(name = "spend_money")
+	private int spend_money;
+
 	public User() {
 		super();
 	}
@@ -93,4 +96,11 @@ public class User {
 		this.email = email;
 	}
 
+	public int getSpend_money() {
+		return spend_money;
+	}
+
+	public void setSpend_money(int spend_money) {
+		this.spend_money = spend_money;
+	}
 }
