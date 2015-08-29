@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -20,32 +21,32 @@
 			<div id="main_content">
 				<center>
 					<div class="center_content_orders">
-						<div class="center_title_bar_orders">You Order</div>
+						<div class="center_title_bar_orders"><spring:message code="main.form.you.order"/></div>
 						<table border="0" width="100%" style="font-size: 14px;">
 							<tr>
 								<th>
 									№	
 								</th>
 								<th>
-									Name book
+									<spring:message code="main.form.name"/>
 								</th>
 								<th>
-									Author
+									<spring:message code="main.form.author"/>
 								</th>
 								<th>
-									Publishing
+									<spring:message code="main.form.publishing"/>
 								</th>
 								<th>
-									Genre
+									<spring:message code="main.form.genre"/>
 								</th>
 								<th>
-									Count
+									<spring:message code="main.form.count"/>
 								</th>
 								<th>
-									Address
+									<spring:message code="main.form.adres"/>
 								</th>
 								<th>
-									Status
+									<spring:message code="main.form.status"/>
 								</th>
 							</tr>
 							<c:forEach items="${ordersUser}" var="ordersUser">
@@ -93,7 +94,7 @@
 													<c:param name="idAuthor" value="${ordersUser[16]}"/>
 													<c:param name="idPublishing" value="${ordersUser[17]}"/>
 													
-													</c:url>">Return</a>
+													</c:url>"><spring:message code="main.form.return"/></a>
 											</c:if>
 										</td>
 									</tr>

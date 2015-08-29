@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -31,7 +32,7 @@
 										<tr bgcolor="#dcd9d9">
 											<div class="details_big_box">
 												<td align="right">
-													<div class="product_title">Name book :</div>
+													<div class="product_title"><spring:message code="main.form.name"/> :</div>
 												</td>
 												<td align="left">	
 													<input type="text" name="add_name_book" required  onkeyup="return  validatorUserName(this)" >									
@@ -39,7 +40,7 @@
 										</tr>
 										<tr bgcolor="#dcd9d9"> 	
 												<td align="right">
-													<div class="product_title">Genre : </div> 
+													<div class="product_title"><spring:message code="main.form.genre"/> : </div> 
 												</td>
 												<td align="left">	
 													<select name="add_genre_book" required>
@@ -51,7 +52,7 @@
 										</tr>
 										<tr bgcolor="#dcd9d9">
 												<td align="right">
-													<div class="product_title">Author : </div> 
+													<div class="product_title"><spring:message code="main.form.author"/> : </div> 
 												</td>	
 												<td align="left">
 													<select name="add_author_book" required>
@@ -63,7 +64,7 @@
 										</tr>
 										<tr bgcolor="#dcd9d9">
 												<td align="right">
-													<div class="product_title">Publishing : </div> 
+													<div class="product_title"><spring:message code="main.form.publishing"/> : </div> 
 												</td>	
 												<td align="left">
 													<select name="add_publishing_book" required>
@@ -75,7 +76,7 @@
 										</tr>
 										<tr bgcolor="#dcd9d9">
 												<td align="right">
-													<div class="product_title">Price book : </div>
+													<div class="product_title"><spring:message code="main.form.price"/> : </div>
 												</td>	
 												<td align="left">
 													<input type="text" name="add_price_book" required >
@@ -83,7 +84,7 @@
 										</tr>	
 										<tr bgcolor="#dcd9d9">
 												<td align="right">
-													<div class="product_title">Count book : </div>
+													<div class="product_title">	<spring:message code="main.form.count"/> : </div>
 												</td>
 												<td align="left">
 													<input type="text" name="add_count_book" required  >

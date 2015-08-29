@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,7 +10,7 @@
 <title>Orders</title>
 
 <link href="style.css" rel="stylesheet" type="text/css">
-<link href="iecss.css" rel="stylesheet" type="text/css">
+
 </head>
 <body>
 	<header> <jsp:include page="header.jsp" /> </header>
@@ -23,11 +24,11 @@
 
 					<div class="center_content_orders">
 
-						<div class="center_title_bar_orders">Orders</div>
+						<div class="center_title_bar_orders"><spring:message code="main.form.orders"/></div>
 						<div class="center_title_bar_orders">
-							<input type="radio" name="radioFilter" value="all" onchange="this.form.submit();">All
-							<input type="radio" name="radioFilter" value="done" onchange="this.form.submit();"> Done
-							<input type="radio" name="radioFilter" value="notDone" onchange="this.form.submit();">Not Done
+							<input type="radio" name="radioFilter" value="all" onchange="this.form.submit();"><spring:message code="main.form.all"/>
+							<input type="radio" name="radioFilter" value="done" onchange="this.form.submit();"> <spring:message code="main.form.done"/>
+							<input type="radio" name="radioFilter" value="notDone" onchange="this.form.submit();"><spring:message code="main.form.notdone"/>
 							
 						</div>
 						<table border="0" width="100%" style="font-size: 14px;">
@@ -83,20 +84,11 @@
 											<option value="delivered" >delivered</option>
 										</select>
 									</td>
-
 								</tr>
-
-							</c:forEach>
-							
+							</c:forEach>							
 						</table>
-
-
-
-
 					</div>
-
 				</center>
-
 			</div>
 
 			<c:if test="${not empty madeOrder}">
@@ -108,14 +100,14 @@
 								<table border="0" width="100%">
 									<tr>
 										<td width="30%" align="right">
-											<div class="product_title">Name :</div>
+											<div class="product_title"><spring:message code="main.form.name"/> :</div>
 										</td>
 										<td width="70%" align="left"><c:out
 												value="${madeOrder.name_book}" /></td>
 									</tr>
 									<tr>
 										<td width="30%" align="right">
-											<div class="product_title">Count :</div>
+											<div class="product_title"><spring:message code="main.form.count"/> :</div>
 										</td>
 										<td width="70%" align="left"><input type="text"
 											name="order_count_cart" required
@@ -127,14 +119,14 @@
 
 									<tr>
 										<td align="right">
-											<div class="product_title">Adres :</div>
+											<div class="product_title"><spring:message code="main.form.adres"/> :</div>
 										</td>
 										<td align="left"><textarea name="order_adres_user"
 												required>${adresUser}</textarea></td>
 									</tr>
 									<tr>
 										<td align="right">
-											<div class="product_title">Other :</div>
+											<div class="product_title"><spring:message code="main.form.other"/> :</div>
 										</td>
 										<td align="left"><textarea name="order_other" required></textarea>
 										</td>

@@ -37,17 +37,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 
-
-
-
-
-
-
-
 @Controller
 public class Control {
 
-	private String name = "" ,message = "";
+	private int begin , end, listSise;
 	
 	@Autowired
 	private ServiceManager serviceManager; 
@@ -56,27 +49,67 @@ public class Control {
 	public ModelAndView showBook( HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> model = new HashMap<String, Object>();
 		
+		if (request.getParameter("begin") != null && request.getParameter("end") != null){
+			begin = Integer.parseInt(request.getParameter("begin"));
+			end = Integer.parseInt(request.getParameter("end"));
+		}
 		
+		if  (request.getParameter("genre_book_filter") != null || request.getParameter("author_book_filter")!= null || request.getParameter("publishing_book_filter")!= null || request.getParameter("new_book_filter")!= null ){
+
+			if (request.getParameter("genre_book_filter") != null){ 
+				if (!request.getParameter("genre_book_filter").equals("") )
+				model.put("book",  serviceManager.listBookFilterGenre(Integer.parseInt(request.getParameter("genre_book_filter"))));
+			}
+			else if (request.getParameter("author_book_filter")!= null){ 
+				if (!request.getParameter("author_book_filter").equals(""))
+				model.put("book",  serviceManager.listBookFilterAuthor(Integer.parseInt(request.getParameter("author_book_filter"))));
+			}
+			else if (request.getParameter("publishing_book_filter")!= null){ 
+				if(!request.getParameter("publishing_book_filter").equals(""))
+				model.put("book",  serviceManager.listBookFilterPublishing(Integer.parseInt(request.getParameter("publishing_book_filter"))));	
+			}
+			else if (request.getParameter("new_book_filter")!= null){
+				if(!request.getParameter("new_book_filter").equals(""))
+				model.put("book",  serviceManager.listBookFilterNew(Integer.parseInt(request.getParameter("new_book_filter"))));
+			}	
+		}	
 		
-		if (request.getParameter("genre_book_filter") != null){
-			model.put("book",  serviceManager.listBookFilterGenre(Integer.parseInt(request.getParameter("genre_book_filter"))));
-		}
-		else if(request.getParameter("author_book_filter") != null){
-			model.put("book",  serviceManager.listBookFilterAuthor(Integer.parseInt(request.getParameter("author_book_filter"))));
-		}
-		else if(request.getParameter("publishing_book_filter") != null){
-			model.put("book",  serviceManager.listBookFilterPublishing(Integer.parseInt(request.getParameter("publishing_book_filter"))));
-		}
-		else if(request.getParameter("new_book_filter") != null){
-			model.put("book",  serviceManager.listBookFilterNew(Integer.parseInt(request.getParameter("new_book_filter"))));
-		}
-		else{
-			model.put("book",  serviceManager.listBook());
+	//	System.out.println("model === "+ model.isEmpty());
+	//	System.out.println("model === "+ model.size());
+		
+		if (model.isEmpty() == true ){
+			List list = serviceManager.listBook();
+			listSise = list.size();
+			request.setAttribute("listSize", listSise);
+			model.put("book", list );
 		}
 		request.setAttribute("genre", serviceManager.allListGenre());
 		request.setAttribute("author", serviceManager.allListAuthor());
 		request.setAttribute("publishing", serviceManager.allListPublishing());
 		
+		if (request.getParameter("Last") != null){
+			if(begin >= 8){
+				request.setAttribute("end", end-=9);
+				request.setAttribute("begin", begin-=9);
+			}else{
+			request.setAttribute("end", end=8);
+			request.setAttribute("begin", begin=0);
+			}
+		}
+		else if(request.getParameter("Next")!=null)
+		{
+			if (end >= listSise){
+				request.setAttribute("begin", begin );
+				request.setAttribute("end", end);
+			}else{
+			request.setAttribute("begin", begin+=9 );
+			request.setAttribute("end", end+=9);
+			}
+		}
+		else {
+			request.setAttribute("begin", begin=0 );
+			request.setAttribute("end", end=8);
+		}
 		
 		return new ModelAndView("book", model);
 	}
@@ -140,7 +173,6 @@ public class Control {
 			return new ModelAndView("editPassword");
 	}
 	
-	
 	@RequestMapping(value ="/showUser", method = RequestMethod.GET)
 	public ModelAndView showUser( HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -179,6 +211,27 @@ public class Control {
 		
 		
 		return  new ModelAndView("user");
+	}
+	
+	@RequestMapping(value ="/likeList", method = RequestMethod.GET)
+	public ModelAndView likeList( HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> model = new HashMap<String, Object>();
+		HttpSession session = request.getSession(true);
+		
+		if (request.getParameter("selectDetail") !=null){
+			Integer id = (Integer) session.getAttribute("idUser");
+			serviceManager.deleteLikeByIdUserBook(Integer.parseInt(request.getParameter("selectDetail")),id );
+			model.put("likesList",  serviceManager.listLike((Integer)session.getAttribute("idUser")));
+			return  new ModelAndView("likeList", model);
+		}
+		if (session.getAttribute("idUser") != null){
+			Integer id = (Integer) session.getAttribute("idUser");
+			model.put("likesList",  serviceManager.listLike((Integer)session.getAttribute("idUser")));
+			return  new ModelAndView("likeList", model);
+		}else{
+			return  new ModelAndView("login");
+		}
+		
 	}
 	
 	@RequestMapping("/cart")
@@ -317,7 +370,6 @@ public class Control {
 		
 	}
 	
-	
 	@RequestMapping(value ="/orders", method = RequestMethod.GET)
 	public ModelAndView orders(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -394,7 +446,6 @@ public class Control {
 		return new ModelAndView("registration");
 	}
 	
-	
 	@RequestMapping("/login")
 	public ModelAndView login( HttpServletRequest request, HttpServletResponse response) {
 		return new ModelAndView("login");
@@ -410,7 +461,12 @@ public class Control {
 	public  String addToCart( HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
 		
-		if (session.getAttribute("idUser") !=null ){
+		if (session.getAttribute("idUser") !=null  && request.getParameter("pageContent")!=null){
+			Integer id = (Integer) session.getAttribute("idUser");
+			serviceManager.addCart(Integer.parseInt(request.getParameter("selectDetail")), id, 1);
+			return "redirect:likeList";
+		}
+		else if (session.getAttribute("idUser") !=null ){
 		Integer id = (Integer) session.getAttribute("idUser");
 		serviceManager.addCart(Integer.parseInt(request.getParameter("selectDetail")), id, 1);
 		return "redirect:showDetail?selectDetail="+request.getParameter("selectDetail");
@@ -419,7 +475,6 @@ public class Control {
 			return "redirect:login";
 		}	
 	}
-	
 	
 	@RequestMapping("/addLike")
 	public  String addLike( HttpServletRequest request, HttpServletResponse response, Likes likes) {
@@ -527,8 +582,7 @@ public class Control {
 	@RequestMapping(value ="/showDetail", method = RequestMethod.GET)
 	public ModelAndView showDetail(@ModelAttribute("book") Book book, 
 			BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-			HttpSession session = request.getSession(true);
-		
+			HttpSession session = request.getSession(true);		
 		
 			if (request.getParameter("editBook") !=null){
 				
@@ -541,7 +595,6 @@ public class Control {
 				System.out.println("edit_publishing_book " + request.getParameter("edit_publishing_book"));
 				
 				serviceManager.updataBook(Integer.parseInt(request.getParameter("selectDetail")), request.getParameter("edit_name_book"), Integer.parseInt(request.getParameter("edit_price_book")), Integer.parseInt(request.getParameter("edit_count_book")), Integer.parseInt(request.getParameter("edit_author_book")), Integer.parseInt(request.getParameter("edit_genre_book")), Integer.parseInt(request.getParameter("edit_publishing_book")));
-				
 				
 			}
 			if (request.getParameter("addToCart") !=null){
@@ -563,7 +616,7 @@ public class Control {
 				serviceManager.addComent(coment);
 			//	request.setAttribute("selectDetail",id_book);
 			}
-			if (request.getParameter("selectDetail")!=null )
+			if (request.getParameter("selectDetail")!=null  )
 			{
 			
 			//System.out.println(request.getParameter("hidden_id_book"));
@@ -576,20 +629,18 @@ public class Control {
 			request.setAttribute("author", serviceManager.allListAuthor());
 			request.setAttribute("publishing", serviceManager.allListPublishing());
 			
-			return new ModelAndView("show", model);
-			
+			return new ModelAndView("show", model);	
 		}
-		
 		
 		else {
+			request.setAttribute("genre", serviceManager.allListGenre());
+			request.setAttribute("author", serviceManager.allListAuthor());
+			request.setAttribute("publishing", serviceManager.allListPublishing());
 			
-		}
-		
-		System.out.println(request.getParameter("selectDetail"));
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("book",  serviceManager.listBook());
-		return new ModelAndView("book", model);
-		
+			System.out.println(request.getParameter("selectDetail"));
+			Map<String, Object> model = new HashMap<String, Object>();
+			model.put("book",  serviceManager.listBook());
+			return new ModelAndView("book", model);
+		}	
 	}
-	
 }

@@ -2,15 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>User list</title>
 
-
 <link href="style.css" rel="stylesheet" type="text/css">
-<link href="iecss.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
@@ -61,7 +60,7 @@
 										</c:forEach>
 										</table>
 										<h2>
-											<a href="registration" >Add User</a>
+											<a href="registration" ><spring:message code="main.form.add.user"/></a>
 											
 										</h2>
 										<br/>
@@ -71,7 +70,7 @@
 										<table border="0" width="100%">
 											<tr>
 												<td width="30%" align="right">
-													<div class="product_title">Name  : </div>
+													<div class="product_title"><spring:message code="main.form.name.user"/></div>
 												</td>
 												<td width="70%" align="left">	
 														<input type="text" name="edit_name_user"  required value="${editUser.name_user}"  />
@@ -80,7 +79,7 @@
 											
 											<tr>	
 												<td align="right">	
-													<div class="product_title">Adres : </div>
+													<div class="product_title"><spring:message code="main.form.adres"/> : </div>
 												</td>
 												<td align="left">	
 														<textarea name="edit_adres_user" required >${editUser.adres_user}</textarea>
@@ -88,7 +87,7 @@
 											</tr>
 											<tr>
 												<td align="right">		
-													<div class="product_title">Email : </div> 
+													<div class="product_title"><spring:message code="main.form.email"/> : </div> 
 												</td>
 												<td align="left">
 													<input type="text" name="edit_email_user" required value="${editUser.email}">
@@ -96,7 +95,7 @@
 											</tr>
 											<tr>
 												<td align="right">	
-													<div class="product_title">	Role  : </div>
+													<div class="product_title">	<spring:message code="main.form.role"/>  : </div>
 												</td>
 												<td align="left">	
 															<select name="identif" required>
@@ -108,7 +107,7 @@
 											</tr>
 											<tr>
 												<td align="right">	
-													<div class="product_title">Pass  : </div>
+													<div class="product_title"><spring:message code="main.form.pass"/>  : </div>
 												</td>
 												<td align="left">	 
 														<input type="text" name="edit_pass_user" required value="${editUser.pass_user}">

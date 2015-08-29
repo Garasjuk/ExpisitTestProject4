@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -44,10 +45,12 @@
 											</div>
 											
 											<div class="specifications">
-												<c:out value="You chooc number money" /><br>
-												<c:out value=" and send SMS to number" /><br>
+												<spring:message code="main.form.sms1"/><br>
+												<spring:message code="main.form.sms2"/><br>
+																																			
 												<c:out value="+0 00 000-00-01" /><br>
-												<c:out value="Enter SMS cod" />
+												<spring:message code="main.form.sms3"/>
+												
 												<input type="text" name="ansver_cod" required >
 												<input type="submit" name="addNewMoney" value="Pay">
 											</div>
@@ -63,7 +66,8 @@
 											</div>
 											
 											<div class="specifications">
-												<c:out value="You chooc number money and enter your credit card number" />
+												<spring:message code="main.form.credit.card"/>
+											
 												<input type="text" name="ansver_cod" required >
 												<input type="submit" name="addNewMoney" value="Pay">
 											</div>
@@ -79,7 +83,8 @@
 											</div>
 											
 											<div class="specifications">
-												<c:out value="You chooc number money and enter your PayPal code " />
+												<spring:message code="main.form.paypal"/>
+												
 												<input type="text" name="ansver_cod" required >
 												<input type="submit" name="addNewMoney" value="Pay">
 											</div>

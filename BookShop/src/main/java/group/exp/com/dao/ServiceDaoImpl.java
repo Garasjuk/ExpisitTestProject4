@@ -145,6 +145,21 @@ public class ServiceDaoImpl implements ServiceDao {
 		sessionFactory.getCurrentSession().update(user);
 	}
 	
+	public List listLike(int id_user) {		
+		Query query =sessionFactory.getCurrentSession().createSQLQuery("SELECT book.id_book as '0', book.name_book as '1',"+
+		" book.count_book as '2', book.price_book as '3', book.id_genre as '4', book.id_author as '5', book.new_book as '6',"+
+		" book.id_publishing as '7',author.name_author as '8', publishing.name_publishing as '9', genre.name_genre as '10', "+
+		" likes.id_like as '11' "+
+		" FROM publishing INNER JOIN (genre INNER JOIN (author INNER JOIN book ON author.id_author = book.id_author)"+
+		" ON genre.id_genre = book.id_genre) ON publishing.id_publishing = book.id_publishing "+
+		" INNER JOIN likes ON book.id_book = likes.id_book "+
+		" WHERE likes.id_user like ?"+
+		" ORDER BY book.name_book");
+		query.setInteger(0, id_user);
+		List result = query.list();
+		return result;
+	}
+	
 	public void updataBookNew(int id_book, int count_book) {
 		Query query = sessionFactory.getCurrentSession().createSQLQuery("UPDATE book SET count_book = ? WHERE id_book = ?");
 		query.setInteger(0, count_book);

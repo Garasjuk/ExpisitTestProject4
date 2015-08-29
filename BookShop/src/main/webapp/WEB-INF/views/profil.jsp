@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -31,7 +32,7 @@
 										<tr bgcolor="#dcd9d9">
 											<div class="details_big_box">
 												<td align="right">
-													<div class="product_title">Name User :</div>
+													<div class="product_title"><spring:message code="main.form.name.user"/> :</div>
 												</td>
 												<td align="left">	
 													<input type="text" name="edit_name_user" required value="${listProfil.name_user}" >									
@@ -39,18 +40,18 @@
 										</tr>
 										<tr bgcolor="#dcd9d9"> 	
 												<td align="right">
-													<div class="product_title">Money : </div> 
+													<div class="product_title"><spring:message code="main.form.money"/> : </div> 
 												</td>
 												<td align="left">
 													<label style="font-size: 18px; font-weight:bold; color: blue;">	
 														<c:out value="${listProfil.money_user}"  />
 													</label>	
-													<a href="addMoney">Add money</a>
+													<a href="addMoney"><spring:message code="main.form.add.money"/></a>
 												</td>
 										</tr>
 										<tr bgcolor="#dcd9d9"> 	
 												<td align="right">
-													<div class="product_title">Spend money : </div> 
+													<div class="product_title"><spring:message code="main.form.spend.money"/> : </div> 
 												</td>
 												<td align="left">
 													<label style="font-size: 18px; font-weight:bold; color:olive;">	
@@ -61,7 +62,7 @@
 										</tr>
 										<tr bgcolor="#dcd9d9">
 												<td align="right">
-													<div class="product_title">Address : </div> 
+													<div class="product_title"><spring:message code="main.form.adres"/> : </div> 
 												</td>	
 												<td align="left">
 													<textarea name="edit_adres_user" required >${listProfil.adres_user}</textarea>
@@ -69,16 +70,16 @@
 										</tr>
 										<tr bgcolor="#dcd9d9">
 												<td align="right">
-													<div class="product_title">Password : </div> 
+													<div class="product_title"><spring:message code="main.form.password"/> : </div> 
 												</td>	
 												<td align="left">
 													<input type="text" name="edit_pass_user" required value="${listProfil.pass_user}" disabled="disabled">
-													<a href="editPassword">Edit password</a>
+													<a href="editPassword"><spring:message code="main.form.edit.password"/></a>
 												</td>
 										</tr>
 										<tr bgcolor="#dcd9d9">
 												<td align="right">
-													<div class="product_title">Role : </div>
+													<div class="product_title"><spring:message code="main.form.role"/> : </div>
 												</td>	
 												<td align="left">
 													<input type="text" name="edit_role_user" required value="${listProfil.identif}" disabled="disabled" >
@@ -86,7 +87,7 @@
 										</tr>	
 										<tr bgcolor="#dcd9d9">
 												<td align="right">
-													<div class="product_title">E-mail : </div>
+													<div class="product_title"><spring:message code="main.form.email"/> : </div>
 												</td>
 												<td align="left">
 													<input type="text" name="edit_email_user" required value="${listProfil.email}" disabled="disabled" >

@@ -211,4 +211,7 @@ public class ServiceManagerImpl implements ServiceManager {
 	public void updataBook(int id_book, String name_book, int price_book, int count_book, int author_book, int genre_book, int publishing_book){
 		serviceDao.updataBook(id_book, name_book, price_book, count_book, author_book, genre_book, publishing_book);
 	}
+	public List listLike(int id_user){
+		return serviceDao.listLike(id_user);
+	}
 }

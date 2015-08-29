@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -31,7 +32,7 @@
 								<table align="center" width="500" border="0">
 								<tr>
 									<td width="50%" align="right">
-										Pass:
+										<spring:message code="main.form.pass"/>:
 									</td>
 									<td width="50%">
 										<input type="password" name="pass1" required><Br>
@@ -39,7 +40,7 @@
 								</tr>
 								<tr>
 									<td align="right">	
-										Repeat:
+										<spring:message code="main.form.repeat"/>:
 									</td>
 									<td>
 										<input type="password" name="pass2" required><Br>

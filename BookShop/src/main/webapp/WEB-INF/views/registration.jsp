@@ -2,17 +2,15 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Registration</title>
 
-<link href="<c:url value="/src/main/resources/theme/css/style.css"/>"
-	rel="stylesheet">
 
 <link href="style.css" rel="stylesheet" type="text/css">
-<link href="iecss.css" rel="stylesheet" type="text/css">
 
 <script type="text/javascript">
 
@@ -51,7 +49,7 @@ function validatorUserName(input) {
 											<table>
 												<tr>
 													<td>											
-														<div class="product_title">Name  : </div>
+														<div class="product_title"><spring:message code="main.form.name.user"/>  : </div>
 													</td>
 													<td>	
 															<input type="text" name="add_name_user" required  onkeyup="return  validatorUserName(this)" >
@@ -59,7 +57,7 @@ function validatorUserName(input) {
 												</tr>	
 												<tr>
 													<td>		
-														<div class="product_title">Adres : </div>
+														<div class="product_title"><spring:message code="main.form.adres"/> : </div>
 													</td>
 													<td>	 
 															<textarea name="add_adres_user" required ></textarea>
@@ -67,7 +65,7 @@ function validatorUserName(input) {
 												</tr>		
 												<tr>
 													<td>
-														<div class="product_title">Email :</div>
+														<div class="product_title"><spring:message code="main.form.email"/> :</div>
 													</td>
 													<td>	 
 															<input type="text" name="add_email_user" required>
@@ -76,7 +74,7 @@ function validatorUserName(input) {
 												<tr>
 													<td>		
 														<div class="product_title">
-															<label>Role  :</label>
+															<label><spring:message code="main.form.role"/>  :</label>
 														</div>
 													</td>
 													<td>	
@@ -89,7 +87,7 @@ function validatorUserName(input) {
 												</tr>	
 												<tr>
 													<td>		
-														<div class="product_title">Pass  : </div>
+														<div class="product_title"><spring:message code="main.form.pass"/>  : </div>
 													</td>
 													<td>	 
 														<input type="text" name="add_pass1_user" required >
@@ -97,7 +95,7 @@ function validatorUserName(input) {
 												</tr>
 												<tr>
 													<td>		
-														<div class="product_title">Repeat: </div>
+														<div class="product_title"><spring:message code="main.form.repeat"/>: </div>
 													</td>
 													<td>	 
 														<input type="text" name="add_pass2_user" required >
@@ -128,7 +126,7 @@ function validatorUserName(input) {
 									<table  border="0">
 										<tr>
 											<td>
-												<div class="product_title">Name: </div>
+												<div class="product_title"><spring:message code="main.form.name.user"/>: </div>
 											</td>
 											<td>
 												<input type="text" name="add_name_user" required>
@@ -136,7 +134,7 @@ function validatorUserName(input) {
 										</tr>	
 										<tr>
 											<td>
-												<div class="product_title">Adres : </div>
+												<div class="product_title"><spring:message code="main.form.adres"/> : </div>
 											</td>
 											<td>	
 												<textarea name="add_adres_user" required ></textarea>
@@ -144,7 +142,7 @@ function validatorUserName(input) {
 										</tr>	
 										<tr>
 											<td>
-												<div class="product_title">Email : </div>
+												<div class="product_title"><spring:message code="main.form.email"/> : </div>
 											</td>
 											<td>
 												<input type="text" name="add_email_user" required>
@@ -152,7 +150,7 @@ function validatorUserName(input) {
 										</tr>	
 										<tr>
 											<td>
-												<div class="product_title">Pass : </div>
+												<div class="product_title"><spring:message code="main.form.pass"/> : </div>
 											</td>
 											<td>	 
 												<input type="text" name="add_pass1_user" required>
@@ -160,7 +158,7 @@ function validatorUserName(input) {
 										</tr>	
 										<tr>
 											<td>
-												<div class="product_title">Repeat: </div> 
+												<div class="product_title"><spring:message code="main.form.repeat"/>: </div> 
 											</td>
 											<td>
 												<input type="text" name="add_pass2_user" required >
