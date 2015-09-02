@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -40,6 +41,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class Control {
 
+	private static final Logger logger = Logger.getLogger(Control.class);
+	
 	private int begin , end, listSise;
 	
 	@Autowired
@@ -53,8 +56,9 @@ public class Control {
 			begin = Integer.parseInt(request.getParameter("begin"));
 			end = Integer.parseInt(request.getParameter("end"));
 		}
+		System.out.println("search === "+ request.getParameter("searchs"));
 		
-		if  (request.getParameter("genre_book_filter") != null || request.getParameter("author_book_filter")!= null || request.getParameter("publishing_book_filter")!= null || request.getParameter("new_book_filter")!= null ){
+		if  (request.getParameter("genre_book_filter") != null || request.getParameter("author_book_filter")!= null || request.getParameter("publishing_book_filter")!= null || request.getParameter("new_book_filter")!= null || request.getParameter("searchs") != null ){
 
 			if (request.getParameter("genre_book_filter") != null){ 
 				if (!request.getParameter("genre_book_filter").equals("") )
@@ -74,6 +78,10 @@ public class Control {
 			}	
 		}	
 		
+		if (request.getParameter("searchs") != null){
+			if(!request.getParameter("searchs").equals(""))
+			model.put("book",  serviceManager.listBookSearch(request.getParameter("searchs")));
+		}
 	//	System.out.println("model === "+ model.isEmpty());
 	//	System.out.println("model === "+ model.size());
 		
@@ -451,6 +459,16 @@ public class Control {
 		return new ModelAndView("login");
 	}
 	
+	@RequestMapping("/about")
+	public ModelAndView about( HttpServletRequest request, HttpServletResponse response) {
+		return new ModelAndView("about");
+	}
+	
+	@RequestMapping("/aboutbook")
+	public ModelAndView aboutbook( HttpServletRequest request, HttpServletResponse response) {
+		return new ModelAndView("aboutbook");
+	}
+	
 	@RequestMapping("/deleteFromCart")
 	public String deleteFromCart( HttpServletRequest request, HttpServletResponse response) {
 			serviceManager.deleteFromCart(Integer.parseInt(request.getParameter("id_cart")));
@@ -573,6 +591,7 @@ public class Control {
 			return "redirect:showBook";
 		}
 		else{
+			logger.error("Error password "+ request.getParameter("name_user_login") + " - " + request.getParameter("pass_user_login"));
 			session.setAttribute("errorLogin", "Error - wrong login or password!" );
 			return "redirect:login";
 		}

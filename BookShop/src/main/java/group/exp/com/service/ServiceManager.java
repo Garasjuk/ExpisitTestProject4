@@ -61,4 +61,5 @@ public interface ServiceManager {
 	public void updateUserSpendMoney(int id_user, int spend_money);
 	public void updataBook(int id_book, String name_book, int price_book, int count_book, int author_book, int genre_book, int publishing_book);
 	public List listLike(int id_user);
+	public List listBookSearch(String search);
 }

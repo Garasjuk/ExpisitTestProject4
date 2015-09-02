@@ -27,15 +27,23 @@
 				<center>
 					<div class="center_content">
 						<div class="center_title_bar">
-						<table border="0" width="500">
+						<table border="0" width="500" >
 							<tr>
-								<td width="30%">
+								<td width="53%" align="right">
+								<spring:message code="main.form.title"/>
 								</td>
-								<td width="40%" align="center">
-									<spring:message code="main.form.title"/>	
+								<td width="7%" align="right" >
+										
 								</td>
-								<td width="30%">
-									<input type="text">	
+								<td width="30%" align="right">
+									<input type="text" name="searchs"/>
+									
+								</td>
+								<td width="10%">
+									<button type="submit" >
+										<img alt="" src="images/search.gif" width="20px" height="17px">	
+									</button>
+									
 								</td>
 							</tr>
 						</table>

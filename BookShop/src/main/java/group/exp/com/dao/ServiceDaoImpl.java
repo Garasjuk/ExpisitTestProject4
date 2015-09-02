@@ -101,6 +101,18 @@ public class ServiceDaoImpl implements ServiceDao {
 		List result = query.list();
 		return result;
 	}
+	public List listBookSearch(String search) {		
+		Query query =sessionFactory.getCurrentSession().createSQLQuery("SELECT book.id_book as '0', book.name_book as '1',"+
+		" book.count_book as '2', book.price_book as '3', book.id_genre as '4', book.id_author as '5', book.new_book as '6',"+
+		" book.id_publishing as '7',author.name_author as '8', publishing.name_publishing as '9', genre.name_genre as '10' "+
+		" FROM publishing INNER JOIN (genre INNER JOIN (author INNER JOIN book ON author.id_author = book.id_author)"+
+		" ON genre.id_genre = book.id_genre) ON publishing.id_publishing = book.id_publishing "+
+		" WHERE book.name_book like ? "+
+		" ORDER BY book.name_book");
+		query.setString(0, '%'+search+'%');
+		List result = query.list();
+		return result;
+	}
 	
 	@SuppressWarnings("unchecked")
 	public User listProfil(int id_user) {	

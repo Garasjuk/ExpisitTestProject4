@@ -39,9 +39,9 @@
 								<div class="" style="float:left; font-size: large;">
 									<a href="showBook" ><spring:message code="header.main"/></a>
 									/
-									<a href="logout" ><spring:message code="header.about"/></a>
+									<a href="about" ><spring:message code="header.about"/></a>
 									/
-									<a href="logout" ><spring:message code="header.books"/></a>
+									<a href="aboutbook" ><spring:message code="header.books"/></a>
 									
 									
 									

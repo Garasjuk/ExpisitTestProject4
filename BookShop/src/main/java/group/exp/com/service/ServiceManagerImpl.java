@@ -214,4 +214,7 @@ public class ServiceManagerImpl implements ServiceManager {
 	public List listLike(int id_user){
 		return serviceDao.listLike(id_user);
 	}
+	public List listBookSearch(String search){
+		return serviceDao.listBookSearch(search);
+	}
 }
