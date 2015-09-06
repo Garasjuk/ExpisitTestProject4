@@ -33,9 +33,6 @@ public class Cart {
 		return id_cart;
 	}
 
-	public void setId_cart(int id_cart) {
-		this.id_cart = id_cart;
-	}
 
 	public int getId_book() {
 		return id_book;

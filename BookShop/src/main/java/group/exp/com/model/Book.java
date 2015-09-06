@@ -43,10 +43,7 @@ public class Book {
 	public int getId_book() {
 		return id_book;
 	}
-
-	public void setId_book(int id_book) {
-		this.id_book = id_book;
-	}
+	
 
 	public String getName_book() {
 		return name_book;

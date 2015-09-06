@@ -26,10 +26,6 @@ public class Publishing {
 		return id_publishing;
 	}
 
-	public void setId_publishing(int id_publishing) {
-		this.id_publishing = id_publishing;
-	}
-
 	public String getName_publishing() {
 		return name_publishing;
 	}

@@ -29,10 +29,6 @@ public class Likes {
 		return id_like;
 	}
 
-	public void setId_like(int id_like) {
-		this.id_like = id_like;
-	}
-
 	public int getId_book() {
 		return id_book;
 	}

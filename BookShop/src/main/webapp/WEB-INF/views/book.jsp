@@ -121,6 +121,11 @@
 							<div class="prod_box">
 								<div class="top_prod_box"></div>
 								<div class="center_prod_box">
+									<c:if test="${roleUser ==1 }">
+										<div class="delete_button">
+											<a href="<c:url value="deleteBook"><c:param name="id_book" value="${book[0]}"/></c:url>">X</a>
+										</div>	
+									</c:if>
 									<div class="product_title">
 									<span class="info"><spring:message code="main.form.name"/>: </span>
 										<a href="showDetail"><c:out value="${book[1]}" /></a>

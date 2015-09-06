@@ -26,6 +26,9 @@
 						
 							<div class="product_img_big">	
 							</div>
+							<c:if test="${not empty errorAddBook}"> 
+								<h2 style="color: red;"> <spring:message code="main.form.errorAddBook"/> </h2>
+							</c:if>							
 							<table border="0" width="90%" >
 								<c:if test="${not empty nameUser}">
 									<c:if test="${roleUser == 1}">
@@ -35,7 +38,7 @@
 													<div class="product_title"><spring:message code="main.form.name"/> :</div>
 												</td>
 												<td align="left">	
-													<input type="text" name="add_name_book" required  onkeyup="return  validatorUserName(this)" >									
+													<input type="text" name="add_name_book"   onkeyup="return  validatorUserName(this)" >									
 												</td>
 										</tr>
 										<tr bgcolor="#dcd9d9"> 	
@@ -49,6 +52,9 @@
 													</c:forEach>
 													</select>
 												</td>
+												<td>
+													<a href=" <c:url value="addBook"><c:param name="genre" value="true"/></c:url>">Add Genre</a>
+												</td>
 										</tr>
 										<tr bgcolor="#dcd9d9">
 												<td align="right">
@@ -60,6 +66,10 @@
 													   		<option value ="${author.id_author}">${author.name_author}</option>
 														</c:forEach>
 													</select>
+												</td>
+												<td>
+												
+													<a href=" <c:url value="addBook"><c:param name="author" value="true"/></c:url>">Add Author</a>
 												</td>
 										</tr>
 										<tr bgcolor="#dcd9d9">
@@ -73,13 +83,16 @@
 														</c:forEach>
 													</select>
 												</td>
+												<td>
+													<a href=" <c:url value="addBook"><c:param name="publishing" value="true"/></c:url>">Add Publishing</a>
+												</td>
 										</tr>
 										<tr bgcolor="#dcd9d9">
 												<td align="right">
 													<div class="product_title"><spring:message code="main.form.price"/> : </div>
 												</td>	
 												<td align="left">
-													<input type="text" name="add_price_book" required >
+													<input type="text" name="add_price_book"  >
 												</td>
 										</tr>	
 										<tr bgcolor="#dcd9d9">
@@ -87,7 +100,7 @@
 													<div class="product_title">	<spring:message code="main.form.count"/> : </div>
 												</td>
 												<td align="left">
-													<input type="text" name="add_count_book" required  >
+													<input type="text" name="add_count_book"   >
 												</td>
 										</tr>
 										<tr>
@@ -100,6 +113,61 @@
 									</c:if>
 								</c:if>	
 							</table>
+							
+							<c:if test="${not empty addGenre}">
+								<table border="0" width="100%">
+									<tr>
+										<td width="30%" align="right">
+											<div class="product_title">	<spring:message code="main.form.genre"/></div>
+										</td>
+										<td width="70%" align="left">	
+											<input type="text" name="add_genre"  required  />
+										</td>
+									</tr>
+									<tr>	
+										<td align="center" colspan="2">	
+											<input type="submit" name="addGenre" value="Add Genre">
+										</td>
+									</tr>
+								</table>
+							</c:if>
+							<c:if test="${not empty addAuthor}">
+								<table border="0" width="100%">
+									<tr>
+										<td width="30%" align="right">
+											<div class="product_title"><spring:message code="main.form.author"/></div>
+										</td>
+										<td width="70%" align="left">	
+											<input type="text" name="add_author"  required  />
+										</td>
+									</tr>
+									<tr>	
+										<td align="center" colspan="2">	
+											<input type="submit" name="addAuthor" value="Add Author">
+										</td>
+									</tr>
+								</table>
+							</c:if>
+							<c:if test="${not empty addPublishing}">
+								<table border="0" width="100%">
+									<tr>
+										<td width="30%" align="right">
+											<div class="product_title"><spring:message code="main.form.publishing"/></div>
+										</td>
+										<td width="70%" align="left">	
+											<input type="text" name="add_publishing"  required  />
+										</td>
+									</tr>
+									<tr>	
+										<td align="center" colspan="2">	
+										
+											<input type="submit" name="addPublishing" value="Add Publishing">
+										</td>
+									</tr>
+								</table>
+							</c:if>
+							
+							
 							
 					
 					</div>

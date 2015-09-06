@@ -39,10 +39,6 @@ public class Coments {
 		return id_coment;
 	}
 
-	public void setId_coment(int id_coment) {
-		this.id_coment = id_coment;
-	}
-
 	public int getId_book() {
 		return id_book;
 	}

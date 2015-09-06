@@ -52,10 +52,6 @@ public class Orders {
 		return id_order;
 	}
 
-	public void setId_order(int id_order) {
-		this.id_order = id_order;
-	}
-
 	public int getId_book() {
 		return id_book;
 	}

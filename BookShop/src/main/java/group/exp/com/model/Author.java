@@ -25,10 +25,7 @@ public class Author {
 	public int getId_author() {
 		return id_author;
 	}
-
-	public void setId_author(int id_author) {
-		this.id_author = id_author;
-	}
+	
 
 	public String getName_author() {
 		return name_author;

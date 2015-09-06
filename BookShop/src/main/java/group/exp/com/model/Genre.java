@@ -26,10 +26,6 @@ public class Genre {
 		return id_genre;
 	}
 
-	public void setId_genre(int id_genre) {
-		this.id_genre = id_genre;
-	}
-
 	public String getName_genre() {
 		return name_genre;
 	}
